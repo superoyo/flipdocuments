@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TV Spot Plan → Monthly Media Grid</title>
+<style>
+  :root {
+    --primary: #1F4E78;
+    --primary-dark: #163a5a;
+    --accent: #2E75B6;
+    --bg: #f3f6fa;
+    --card: #ffffff;
+    --border: #d9e2ec;
+    --text: #1a2733;
+    --muted: #6b7a8a;
+    --error: #c0392b;
+    --success: #1e7e34;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 24px 16px;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  header h1 {
+    margin: 0 0 8px;
+    color: var(--primary);
+    font-size: 26px;
+  }
+  header p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .card {
+    background: var(--card);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(31, 78, 120, 0.08);
+    padding: 28px;
+  }
+  .drop {
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    padding: 36px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.18s;
+    background: #fafcfd;
+  }
+  .drop:hover, .drop.drag {
+    border-color: var(--accent);
+    background: #eef5fb;
+  }
+  .drop input { display: none; }
+  .drop-icon { font-size: 38px; color: var(--accent); margin-bottom: 8px; }
+  .drop-title { font-weight: 600; color: var(--primary); margin-bottom: 4px; }
+  .drop-sub { font-size: 13px; color: var(--muted); }
+  .file-name {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: #eaf3fa;
+    border-radius: 6px;
+    font-size: 14px;
+    color: var(--primary-dark);
+    display: none;
+  }
+  .meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .field { display: flex; flex-direction: column; }
+  .field label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  .field input {
+    padding: 9px 11px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border 0.15s;
+  }
+  .field input:focus { border-color: var(--accent); }
+  .meta-toggle {
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--accent);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  .actions { margin-top: 20px; text-align: center; }
+  button.submit {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 12px 32px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-family: inherit;
+  }
+  button.submit:hover:not(:disabled) { background: var(--primary-dark); }
+  button.submit:disabled { background: #b0b8c0; cursor: not-allowed; }
+  .result {
+    margin-top: 20px;
+    padding: 18px;
+    border-radius: 8px;
+    display: none;
+  }
+  .result.ok { background: #e7f5ed; border: 1px solid #b8dcc8; }
+  .result.err { background: #fbe9e7; border: 1px solid #f0b8b0; color: var(--error); }
+  .result h3 { margin: 0 0 10px; font-size: 16px; }
+  .summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    margin: 12px 0;
+  }
+  .stat {
+    background: #fff;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+  }
+  .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; }
+  .stat-value { font-size: 18px; font-weight: 700; color: var(--primary); margin-top: 2px; }
+  .dl-btn {
+    display: inline-block;
+    background: var(--success);
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 22px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: 8px;
+  }
+  .dl-btn:hover { background: #186029; }
+  .loading {
+    display: none;
+    text-align: center;
+    padding: 16px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .spinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 18px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>📺 TV Spot Plan → Monthly Media Grid</h1>
+    <p>อัปโหลดผังสปอตรายสัปดาห์ (Pulzar-style) → กริดสื่อรายเดือน (Kirei-style)</p>
+  </header>
+
+  <div class="card">
+    <form id="form">
+      <label class="drop" id="drop">
+        <input type="file" id="file" name="file" accept=".xlsx" required>
+        <div class="drop-icon">📂</div>
+        <div class="drop-title">คลิกหรือลากไฟล์ Excel มาวางที่นี่</div>
+        <div class="drop-sub">เฉพาะ .xlsx — ขนาดสูงสุด 25 MB</div>
+      </label>
+      <div class="file-name" id="fileName"></div>
+
+      <button type="button" class="meta-toggle" id="metaToggle">▸ เพิ่มข้อมูลส่วนหัว (optional)</button>
+      <div class="meta-grid" id="metaGrid" style="display: none;">
+        <div class="field">
+          <label>ลูกค้า</label>
+          <input type="text" name="client" placeholder="บริษัท ...">
+        </div>
+        <div class="field">
+          <label>ผลิตภัณฑ์</label>
+          <input type="text" name="product" placeholder="...">
+        </div>
+        <div class="field">
+          <label>แคมเปญ</label>
+          <input type="text" name="campaign" placeholder="TV. ...">
+        </div>
+        <div class="field">
+          <label>เอกสารเลขที่</label>
+          <input type="text" name="docno" placeholder="DAT-...">
+        </div>
+        <div class="field">
+          <label>เดือน (ถ้าตรวจไม่เจอ)</label>
+          <input type="text" name="month" placeholder="พ.ค. 2569">
+        </div>
+        <div class="field">
+          <label>ปี (พ.ศ.)</label>
+          <input type="text" name="year" placeholder="2569" value="2569">
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="submit" id="submitBtn">แปลงไฟล์</button>
+      </div>
+    </form>
+
+    <div class="loading" id="loading">
+      <span class="spinner"></span>กำลังประมวลผล...
+    </div>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <footer>ใช้ skill <code>tv-spot-plan-grid</code></footer>
+</div>
+
+<script>
+  const drop = document.getElementById('drop');
+  const fileInput = document.getElementById('file');
+  const fileName = document.getElementById('fileName');
+  const form = document.getElementById('form');
+  const submitBtn = document.getElementById('submitBtn');
+  const loading = document.getElementById('loading');
+  const result = document.getElementById('result');
+  const metaToggle = document.getElementById('metaToggle');
+  const metaGrid = document.getElementById('metaGrid');
+
+  metaToggle.addEventListener('click', () => {
+    const open = metaGrid.style.display !== 'none';
+    metaGrid.style.display = open ? 'none' : 'grid';
+    metaToggle.textContent = (open ? '▸' : '▾') + ' เพิ่มข้อมูลส่วนหัว (optional)';
+  });
+
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files.length) {
+      fileName.style.display = 'block';
+      fileName.textContent = '✓ ' + fileInput.files[0].name;
+    }
+  });
+
+  ['dragenter', 'dragover'].forEach(e => {
+    drop.addEventListener(e, ev => { ev.preventDefault(); drop.classList.add('drag'); });
+  });
+  ['dragleave', 'drop'].forEach(e => {
+    drop.addEventListener(e, ev => { ev.preventDefault(); drop.classList.remove('drag'); });
+  });
+  drop.addEventListener('drop', ev => {
+    const files = ev.dataTransfer.files;
+    if (files.length) {
+      fileInput.files = files;
+      fileInput.dispatchEvent(new Event('change'));
+    }
+  });
+
+  form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    if (!fileInput.files.length) return;
+
+    submitBtn.disabled = true;
+    loading.style.display = 'block';
+    result.style.display = 'none';
+    result.className = 'result';
+
+    const fd = new FormData(form);
+
+    try {
+      const res = await fetch('/convert', { method: 'POST', body: fd });
+      const data = await res.json();
+      loading.style.display = 'none';
+      submitBtn.disabled = false;
+
+      if (!res.ok || data.error) {
+        result.className = 'result err';
+        result.style.display = 'block';
+        result.innerHTML = '<h3>⚠️ แปลงไม่สำเร็จ</h3><p>' + (data.error || 'Unknown error') + '</p>';
+        return;
+      }
+
+      const s = data.summary;
+      result.className = 'result ok';
+      result.style.display = 'block';
+      result.innerHTML = `
+        <h3>✅ แปลงสำเร็จ</h3>
+        <div class="summary">
+          <div class="stat"><div class="stat-label">เดือน</div><div class="stat-value">${s.month || '-'}</div></div>
+          <div class="stat"><div class="stat-label">ช่อง</div><div class="stat-value">${s.channels}</div></div>
+          <div class="stat"><div class="stat-label">รายการ</div><div class="stat-value">${s.rows}</div></div>
+          <div class="stat"><div class="stat-label">สปอตรวม</div><div class="stat-value">${s.spots.toLocaleString()}</div></div>
+          <div class="stat"><div class="stat-label">เงินสุทธิ</div><div class="stat-value">${s.money.toLocaleString()}</div></div>
+        </div>
+        <div style="text-align:center"><a class="dl-btn" href="${data.download_url}">⬇ ดาวน์โหลด Excel</a></div>
+      `;
+    } catch (e) {
+      loading.style.display = 'none';
+      submitBtn.disabled = false;
+      result.className = 'result err';
+      result.style.display = 'block';
+      result.innerHTML = '<h3>⚠️ เกิดข้อผิดพลาด</h3><p>' + e.message + '</p>';
+    }
+  });
+</script>
+</body>
+</html>
