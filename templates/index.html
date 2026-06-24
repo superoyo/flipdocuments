@@ -103,6 +103,9 @@
   }
 </script>
 <style>
+  html {
+    scrollbar-gutter: stable;
+  }
   html, body {
     overflow-x: hidden;
   }
@@ -240,20 +243,26 @@
         </div>
 
         <!-- Process bar: shown when file selected -->
-        <div id="process-bar" class="hidden mt-gutter flex justify-between items-center bg-surface-container-low rounded-xl px-stack-md py-stack-sm border border-outline-variant/30 fade-in">
-          <div class="flex items-center gap-stack-sm min-w-0">
-            <div class="w-10 h-10 rounded bg-white flex items-center justify-center border border-outline-variant flex-shrink-0">
-              <span class="material-symbols-outlined text-on-surface-variant">description</span>
+        <div id="process-bar" class="hidden mt-gutter flex flex-wrap gap-stack-sm justify-between items-center bg-surface-container-low rounded-xl px-stack-md py-stack-sm border border-outline-variant/30 fade-in">
+          <div class="flex items-center gap-stack-sm min-w-0 flex-1">
+            <div class="w-11 h-11 rounded-lg bg-white flex items-center justify-center border border-outline-variant flex-shrink-0">
+              <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">description</span>
             </div>
             <div class="min-w-0">
               <p id="file-name" class="font-body-md font-semibold text-on-surface truncate"></p>
               <p id="file-size" class="font-label-md text-label-md text-on-surface-variant">พร้อมแปลง</p>
             </div>
           </div>
-          <button id="submit-btn" type="submit" class="gemini-gradient text-white px-6 py-2.5 rounded-full font-body-sm font-bold flex items-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-95 flex-shrink-0">
-            <span id="submit-icon" class="material-symbols-outlined text-[18px]">auto_fix_high</span>
-            <span id="submit-text">แปลงไฟล์</span>
-          </button>
+          <div class="flex items-center gap-stack-sm flex-shrink-0">
+            <button type="button" id="change-file" class="text-on-surface-variant hover:text-primary font-body-sm font-semibold px-3 py-2 rounded-lg hover:bg-surface-container transition-all flex items-center gap-1">
+              <span class="material-symbols-outlined text-[18px]">swap_horiz</span>
+              เปลี่ยนไฟล์
+            </button>
+            <button id="submit-btn" type="submit" class="gemini-gradient text-white px-6 py-2.5 rounded-full font-body-sm font-bold flex items-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-95">
+              <span id="submit-icon" class="material-symbols-outlined text-[18px]">auto_fix_high</span>
+              <span id="submit-text">แปลงไฟล์</span>
+            </button>
+          </div>
         </div>
 
         <!-- Result -->
@@ -301,9 +310,11 @@
     </div>
   </section>
 
-  <div class="fixed top-1/4 -right-24 w-96 h-96 bg-primary/5 rounded-full blur-[100px] -z-10"></div>
-  <div class="fixed bottom-1/4 -left-24 w-80 h-80 bg-secondary/5 rounded-full blur-[100px] -z-10"></div>
 </main>
+<div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+  <div class="absolute top-1/4 right-[-6rem] w-96 h-96 bg-primary/5 rounded-full blur-[100px]"></div>
+  <div class="absolute bottom-1/4 left-[-6rem] w-80 h-80 bg-secondary/5 rounded-full blur-[100px]"></div>
+</div>
 
 <footer class="w-full py-stack-md bg-transparent mt-auto border-t border-surface-variant/50">
   <div class="flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop gap-base max-w-container-max mx-auto">
@@ -349,11 +360,24 @@
     fileNameEl.textContent = f.name;
     fileSizeEl.textContent = 'พร้อมแปลง • ' + fmtSize(f.size);
     processBar.classList.remove('hidden');
+    dropZone.classList.add('hidden');
+    resultEl.classList.add('hidden');
+  }
+
+  function resetFile() {
+    fileInput.value = '';
+    processBar.classList.add('hidden');
+    dropZone.classList.remove('hidden');
     resultEl.classList.add('hidden');
   }
 
   fileInput.addEventListener('change', () => {
     if (fileInput.files.length) showFile(fileInput.files[0]);
+  });
+
+  document.getElementById('change-file').addEventListener('click', () => {
+    resetFile();
+    fileInput.click();
   });
 
   ['dragenter', 'dragover'].forEach(e => {
