@@ -1,328 +1,465 @@
 <!DOCTYPE html>
-<html lang="th">
+<html class="light" lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TV Spot Plan → Monthly Media Grid</title>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FlipGrid | TV Spot Plan → Monthly Media Grid</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "on-tertiary-fixed-variant": "#783100",
+          "surface-container": "#ecedf7",
+          "surface-container-low": "#f2f3fd",
+          "tertiary": "#9e4300",
+          "outline-variant": "#c1c6d6",
+          "error-container": "#ffdad6",
+          "inverse-on-surface": "#eff0fa",
+          "surface-container-lowest": "#ffffff",
+          "on-surface-variant": "#414754",
+          "on-error-container": "#93000a",
+          "on-background": "#191c23",
+          "primary": "#005bbf",
+          "on-secondary-fixed": "#20005f",
+          "inverse-primary": "#adc7ff",
+          "on-tertiary": "#ffffff",
+          "surface-container-high": "#e6e8f2",
+          "on-secondary-container": "#fcf6ff",
+          "on-secondary": "#ffffff",
+          "on-primary-container": "#ffffff",
+          "on-primary-fixed-variant": "#004493",
+          "secondary": "#632ce5",
+          "on-primary-fixed": "#001a41",
+          "tertiary-fixed-dim": "#ffb691",
+          "tertiary-fixed": "#ffdbcb",
+          "surface-variant": "#e0e2ec",
+          "secondary-fixed-dim": "#cdbdff",
+          "primary-fixed": "#d8e2ff",
+          "on-tertiary-container": "#0e0200",
+          "surface-dim": "#d8d9e3",
+          "primary-container": "#1a73e8",
+          "surface-container-highest": "#e0e2ec",
+          "secondary-fixed": "#e8deff",
+          "inverse-surface": "#2d3038",
+          "on-tertiary-fixed": "#341100",
+          "primary-fixed-dim": "#adc7ff",
+          "surface-bright": "#f9f9ff",
+          "on-secondary-fixed-variant": "#4f00d0",
+          "on-surface": "#191c23",
+          "on-primary": "#ffffff",
+          "secondary-container": "#7c4dff",
+          "outline": "#727785",
+          "background": "#f9f9ff",
+          "tertiary-container": "#c55500",
+          "surface": "#f9f9ff",
+          "error": "#ba1a1a",
+          "on-error": "#ffffff",
+          "surface-tint": "#005bc0",
+          "success": "#1e7e34",
+          "success-container": "#d4edda"
+        },
+        borderRadius: {
+          DEFAULT: "0.25rem",
+          lg: "0.5rem",
+          xl: "1.5rem",
+          full: "9999px"
+        },
+        spacing: {
+          "stack-md": "24px",
+          "margin-desktop": "64px",
+          "stack-lg": "48px",
+          "stack-sm": "12px",
+          "margin-mobile": "20px",
+          base: "8px",
+          gutter: "24px",
+          "container-max": "1280px"
+        },
+        fontFamily: {
+          "headline-xl": ["Inter", "IBM Plex Sans Thai"],
+          "body-lg": ["Inter", "IBM Plex Sans Thai"],
+          "body-sm": ["Inter", "IBM Plex Sans Thai"],
+          "body-md": ["Inter", "IBM Plex Sans Thai"],
+          "label-md": ["Inter", "IBM Plex Sans Thai"],
+          "headline-lg": ["Inter", "IBM Plex Sans Thai"],
+          "headline-md": ["Inter", "IBM Plex Sans Thai"]
+        },
+        fontSize: {
+          "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+          "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+          "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+          "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+          "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+          "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+          "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "500"}]
+        }
+      }
+    }
+  }
+</script>
 <style>
-  :root {
-    --primary: #1F4E78;
-    --primary-dark: #163a5a;
-    --accent: #2E75B6;
-    --bg: #f3f6fa;
-    --card: #ffffff;
-    --border: #d9e2ec;
-    --text: #1a2733;
-    --muted: #6b7a8a;
-    --error: #c0392b;
-    --success: #1e7e34;
-  }
-  * { box-sizing: border-box; }
   body {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 24px 16px;
+    font-family: 'Inter', 'IBM Plex Sans Thai', sans-serif;
+    background-color: #f9f9ff;
+    color: #191c23;
   }
-  .wrap {
-    max-width: 720px;
-    margin: 0 auto;
-  }
-  header {
-    text-align: center;
-    margin-bottom: 24px;
-  }
-  header h1 {
-    margin: 0 0 8px;
-    color: var(--primary);
-    font-size: 26px;
-  }
-  header p {
-    margin: 0;
-    color: var(--muted);
-    font-size: 14px;
-  }
-  .card {
-    background: var(--card);
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(31, 78, 120, 0.08);
-    padding: 28px;
-  }
-  .drop {
-    border: 2px dashed var(--border);
-    border-radius: 10px;
-    padding: 36px 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.18s;
-    background: #fafcfd;
-  }
-  .drop:hover, .drop.drag {
-    border-color: var(--accent);
-    background: #eef5fb;
-  }
-  .drop input { display: none; }
-  .drop-icon { font-size: 38px; color: var(--accent); margin-bottom: 8px; }
-  .drop-title { font-weight: 600; color: var(--primary); margin-bottom: 4px; }
-  .drop-sub { font-size: 13px; color: var(--muted); }
-  .file-name {
-    margin-top: 12px;
-    padding: 10px 14px;
-    background: #eaf3fa;
-    border-radius: 6px;
-    font-size: 14px;
-    color: var(--primary-dark);
-    display: none;
-  }
-  .meta-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 20px;
-  }
-  .field { display: flex; flex-direction: column; }
-  .field label {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 4px;
-    font-weight: 600;
-  }
-  .field input {
-    padding: 9px 11px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-size: 14px;
-    font-family: inherit;
-    outline: none;
-    transition: border 0.15s;
-  }
-  .field input:focus { border-color: var(--accent); }
-  .meta-toggle {
-    margin-top: 14px;
-    font-size: 13px;
-    color: var(--accent);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-  }
-  .actions { margin-top: 20px; text-align: center; }
-  button.submit {
-    background: var(--primary);
-    color: #fff;
-    border: none;
-    padding: 12px 32px;
-    font-size: 15px;
-    font-weight: 600;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.15s;
-    font-family: inherit;
-  }
-  button.submit:hover:not(:disabled) { background: var(--primary-dark); }
-  button.submit:disabled { background: #b0b8c0; cursor: not-allowed; }
-  .result {
-    margin-top: 20px;
-    padding: 18px;
-    border-radius: 8px;
-    display: none;
-  }
-  .result.ok { background: #e7f5ed; border: 1px solid #b8dcc8; }
-  .result.err { background: #fbe9e7; border: 1px solid #f0b8b0; color: var(--error); }
-  .result h3 { margin: 0 0 10px; font-size: 16px; }
-  .summary {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 10px;
-    margin: 12px 0;
-  }
-  .stat {
-    background: #fff;
-    padding: 10px;
-    border-radius: 6px;
-    text-align: center;
-  }
-  .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; }
-  .stat-value { font-size: 18px; font-weight: 700; color: var(--primary); margin-top: 2px; }
-  .dl-btn {
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
     display: inline-block;
-    background: var(--success);
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 22px;
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 14px;
-    margin-top: 8px;
+    vertical-align: middle;
   }
-  .dl-btn:hover { background: #186029; }
-  .loading {
-    display: none;
-    text-align: center;
-    padding: 16px;
-    color: var(--muted);
-    font-size: 14px;
+  .gemini-gradient {
+    background: linear-gradient(135deg, #1a73e8 0%, #7c4dff 100%);
+  }
+  .glass-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid #F1F3F4;
+  }
+  .upload-dashed {
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='24' ry='24' stroke='%23C1C6D6FF' stroke-width='2' stroke-dasharray='12%2c 12' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+    border-radius: 24px;
+  }
+  .hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.06);
   }
   .spinner {
     display: inline-block;
     width: 18px;
     height: 18px;
-    border: 2px solid var(--border);
-    border-top-color: var(--accent);
+    border: 2.5px solid rgba(255,255,255,0.35);
+    border-top-color: #fff;
     border-radius: 50%;
     animation: spin 0.7s linear infinite;
-    vertical-align: middle;
-    margin-right: 8px;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-  footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 18px; }
+  .fade-in { animation: fadeIn 0.35s ease both; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 </style>
 </head>
-<body>
-<div class="wrap">
-  <header>
-    <h1>📺 TV Spot Plan → Monthly Media Grid</h1>
-    <p>อัปโหลดผังสปอตรายสัปดาห์ (Pulzar-style) → กริดสื่อรายเดือน (Kirei-style)</p>
-  </header>
+<body class="flex flex-col min-h-screen">
 
-  <div class="card">
-    <form id="form">
-      <label class="drop" id="drop">
-        <input type="file" id="file" name="file" accept=".xlsx" required>
-        <div class="drop-icon">📂</div>
-        <div class="drop-title">คลิกหรือลากไฟล์ Excel มาวางที่นี่</div>
-        <div class="drop-sub">เฉพาะ .xlsx — ขนาดสูงสุด 25 MB</div>
-      </label>
-      <div class="file-name" id="fileName"></div>
-
-      <button type="button" class="meta-toggle" id="metaToggle">▸ เพิ่มข้อมูลส่วนหัว (optional)</button>
-      <div class="meta-grid" id="metaGrid" style="display: none;">
-        <div class="field">
-          <label>ลูกค้า</label>
-          <input type="text" name="client" placeholder="บริษัท ...">
-        </div>
-        <div class="field">
-          <label>ผลิตภัณฑ์</label>
-          <input type="text" name="product" placeholder="...">
-        </div>
-        <div class="field">
-          <label>แคมเปญ</label>
-          <input type="text" name="campaign" placeholder="TV. ...">
-        </div>
-        <div class="field">
-          <label>เอกสารเลขที่</label>
-          <input type="text" name="docno" placeholder="DAT-...">
-        </div>
-        <div class="field">
-          <label>เดือน (ถ้าตรวจไม่เจอ)</label>
-          <input type="text" name="month" placeholder="พ.ค. 2569">
-        </div>
-        <div class="field">
-          <label>ปี (พ.ศ.)</label>
-          <input type="text" name="year" placeholder="2569" value="2569">
-        </div>
-      </div>
-
-      <div class="actions">
-        <button type="submit" class="submit" id="submitBtn">แปลงไฟล์</button>
-      </div>
-    </form>
-
-    <div class="loading" id="loading">
-      <span class="spinner"></span>กำลังประมวลผล...
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+  <div class="flex justify-between items-center h-16 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+    <div class="flex items-center gap-base">
+      <span class="material-symbols-outlined text-primary text-[28px]">grid_view</span>
+      <span class="font-headline-md text-headline-md font-bold text-on-surface">FlipGrid</span>
     </div>
+    <div class="hidden md:flex items-center gap-stack-md">
+      <a class="text-primary font-bold border-b-2 border-primary py-1 font-body-md" href="#">Home</a>
+      <a class="text-on-surface-variant hover:text-on-surface transition-colors font-body-md hover:bg-surface-container-highest/50 px-3 py-1 rounded-lg" href="https://github.com/superoyo/flipdocuments" target="_blank">GitHub</a>
+      <a class="text-on-surface-variant hover:text-on-surface transition-colors font-body-md hover:bg-surface-container-highest/50 px-3 py-1 rounded-lg" href="#about">เกี่ยวกับ</a>
+    </div>
+    <div class="flex items-center gap-base">
+      <button class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-highest/50 rounded-full transition-colors active:scale-95">help</button>
+      <button class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-highest/50 rounded-full transition-colors active:scale-95">account_circle</button>
+    </div>
+  </div>
+</nav>
 
-    <div class="result" id="result"></div>
+<main class="flex-grow pt-24 pb-stack-lg px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full">
+
+  <section class="text-center mt-stack-lg mb-stack-lg fade-in">
+    <h1 class="font-headline-xl text-headline-xl mb-4">
+      แปลงผังสปอตทีวี<br/>
+      <span class="text-primary">เป็นกริดสื่อรายเดือนอัตโนมัติ</span>
+    </h1>
+    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+      อัปโหลดไฟล์ Excel ผังรายสัปดาห์ (Pulzar-style) แล้วระบบจะแปลงเป็น
+      ตารางใช้สื่อรายเดือนสไตล์ Kirei ให้พร้อมส่งลูกค้า
+    </p>
+  </section>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+    <!-- Left: Features -->
+    <aside class="lg:col-span-4 space-y-gutter">
+      <div class="glass-card rounded-xl p-stack-md hover-lift">
+        <div class="w-12 h-12 rounded-lg bg-primary-container/10 flex items-center justify-center mb-4">
+          <span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+        </div>
+        <h3 class="font-headline-md text-headline-md mb-2">Auto-Detect</h3>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">ตรวจจับ header / weekday groups / วันที่ / legend อัตโนมัติ — ใช้ได้ทุกเดือนโดยไม่ต้อง config</p>
+      </div>
+      <div class="glass-card rounded-xl p-stack-md hover-lift">
+        <div class="w-12 h-12 rounded-lg bg-secondary-container/10 flex items-center justify-center mb-4">
+          <span class="material-symbols-outlined text-secondary-container" style="font-variation-settings: 'FILL' 1;">functions</span>
+        </div>
+        <h3 class="font-headline-md text-headline-md mb-2">สูตร Excel จริง</h3>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">รวมเงินสุทธิ, TOTAL CHANNEL, ค่าบริการ 10% — ทุกบรรทัดเป็นสูตร แก้ตัวเลขแล้วอัปเดตเอง</p>
+      </div>
+      <div class="glass-card rounded-xl p-stack-md hover-lift">
+        <div class="w-12 h-12 rounded-lg bg-tertiary/10 flex items-center justify-center mb-4">
+          <span class="material-symbols-outlined text-tertiary" style="font-variation-settings: 'FILL' 1;">tv</span>
+        </div>
+        <h3 class="font-headline-md text-headline-md mb-2">รูปแบบ Kirei</h3>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">แยกตามช่อง, โค้ด version (A/A2/BC), สรุปรายวัน, legend อัตโนมัติ — พร้อมส่งลูกค้า</p>
+      </div>
+    </aside>
+
+    <!-- Right: Upload Zone -->
+    <div class="lg:col-span-8">
+      <form id="form">
+        <label id="drop-zone" class="upload-dashed glass-card p-12 min-h-[420px] flex flex-col items-center justify-center text-center group cursor-pointer transition-all duration-300 hover:bg-surface-container-low block">
+          <div class="mb-6 relative">
+            <div class="absolute -inset-4 bg-primary/10 rounded-full blur-xl group-hover:bg-primary/20 transition-all"></div>
+            <span class="material-symbols-outlined text-[72px] text-primary relative group-hover:scale-110 transition-transform duration-300">upload_file</span>
+          </div>
+          <h2 class="font-headline-lg text-headline-lg mb-2">วางไฟล์ Excel ที่นี่</h2>
+          <p class="font-body-md text-body-md text-on-surface-variant mb-6">รองรับเฉพาะ .xlsx ขนาดไม่เกิน 25 MB</p>
+          <div class="flex flex-col sm:flex-row gap-stack-sm w-full max-w-sm justify-center">
+            <span class="cursor-pointer gemini-gradient text-white px-8 py-3 rounded-xl font-body-md font-semibold flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-all active:scale-95">
+              <span class="material-symbols-outlined text-[20px]">folder_open</span>
+              <span>เลือกไฟล์</span>
+            </span>
+          </div>
+          <div class="mt-8 flex flex-wrap justify-center items-center gap-stack-sm text-label-md font-label-md text-outline">
+            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">lock</span> ไฟล์ไม่ถูกเก็บถาวร</span>
+            <span class="w-1 h-1 rounded-full bg-outline"></span>
+            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">bolt</span> ประมวลผลในไม่กี่วินาที</span>
+          </div>
+          <input id="file" name="file" type="file" accept=".xlsx" class="hidden" required/>
+        </label>
+
+        <!-- Meta toggle -->
+        <div class="mt-gutter">
+          <button type="button" id="meta-toggle" class="text-primary font-body-sm font-semibold flex items-center gap-1 hover:underline">
+            <span id="meta-icon" class="material-symbols-outlined text-[18px]">expand_more</span>
+            <span>เพิ่มข้อมูลส่วนหัว (ลูกค้า/แคมเปญ) — optional</span>
+          </button>
+          <div id="meta-grid" class="hidden mt-4 grid grid-cols-1 sm:grid-cols-2 gap-stack-sm glass-card rounded-xl p-stack-md">
+            <div class="flex flex-col">
+              <label class="text-label-md font-label-md text-on-surface-variant uppercase mb-1">ลูกค้า</label>
+              <input type="text" name="client" placeholder="บริษัท ..." class="rounded-lg border border-outline-variant px-3 py-2 font-body-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"/>
+            </div>
+            <div class="flex flex-col">
+              <label class="text-label-md font-label-md text-on-surface-variant uppercase mb-1">ผลิตภัณฑ์</label>
+              <input type="text" name="product" placeholder="..." class="rounded-lg border border-outline-variant px-3 py-2 font-body-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"/>
+            </div>
+            <div class="flex flex-col">
+              <label class="text-label-md font-label-md text-on-surface-variant uppercase mb-1">แคมเปญ</label>
+              <input type="text" name="campaign" placeholder="TV. ..." class="rounded-lg border border-outline-variant px-3 py-2 font-body-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"/>
+            </div>
+            <div class="flex flex-col">
+              <label class="text-label-md font-label-md text-on-surface-variant uppercase mb-1">เอกสารเลขที่</label>
+              <input type="text" name="docno" placeholder="DAT-..." class="rounded-lg border border-outline-variant px-3 py-2 font-body-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"/>
+            </div>
+            <div class="flex flex-col">
+              <label class="text-label-md font-label-md text-on-surface-variant uppercase mb-1">เดือน (override)</label>
+              <input type="text" name="month" placeholder="พ.ค. 2569" class="rounded-lg border border-outline-variant px-3 py-2 font-body-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"/>
+            </div>
+            <div class="flex flex-col">
+              <label class="text-label-md font-label-md text-on-surface-variant uppercase mb-1">ปี (พ.ศ.)</label>
+              <input type="text" name="year" value="2569" class="rounded-lg border border-outline-variant px-3 py-2 font-body-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Process bar: shown when file selected -->
+        <div id="process-bar" class="hidden mt-gutter flex justify-between items-center bg-surface-container-low rounded-xl px-stack-md py-stack-sm border border-outline-variant/30 fade-in">
+          <div class="flex items-center gap-stack-sm min-w-0">
+            <div class="w-10 h-10 rounded bg-white flex items-center justify-center border border-outline-variant flex-shrink-0">
+              <span class="material-symbols-outlined text-on-surface-variant">description</span>
+            </div>
+            <div class="min-w-0">
+              <p id="file-name" class="font-body-md font-semibold text-on-surface truncate"></p>
+              <p id="file-size" class="font-label-md text-label-md text-on-surface-variant">พร้อมแปลง</p>
+            </div>
+          </div>
+          <button id="submit-btn" type="submit" class="gemini-gradient text-white px-6 py-2.5 rounded-full font-body-sm font-bold flex items-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-95 flex-shrink-0">
+            <span id="submit-icon" class="material-symbols-outlined text-[18px]">auto_fix_high</span>
+            <span id="submit-text">แปลงไฟล์</span>
+          </button>
+        </div>
+
+        <!-- Result -->
+        <div id="result" class="hidden mt-gutter fade-in"></div>
+      </form>
+    </div>
   </div>
 
-  <footer>ใช้ skill <code>tv-spot-plan-grid</code></footer>
-</div>
+  <section id="about" class="mt-stack-lg pt-stack-md border-t border-outline-variant/30">
+    <h2 class="font-headline-lg text-headline-lg mb-stack-sm text-center">วิธีใช้งาน</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+      <div class="text-center">
+        <div class="w-12 h-12 rounded-full bg-primary text-white mx-auto flex items-center justify-center font-bold mb-2">1</div>
+        <h3 class="font-headline-md text-headline-md mb-1">อัปโหลด</h3>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">เลือกไฟล์ผังสปอตทีวีรายสัปดาห์ (.xlsx) ที่มีคอลัมน์ CH / Mat. / Cost / Time</p>
+      </div>
+      <div class="text-center">
+        <div class="w-12 h-12 rounded-full bg-primary text-white mx-auto flex items-center justify-center font-bold mb-2">2</div>
+        <h3 class="font-headline-md text-headline-md mb-1">แปลง</h3>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">ระบบ auto-detect เดือน, ช่อง, สปอต, legend แล้วสร้างกริดรายเดือนพร้อมสูตร</p>
+      </div>
+      <div class="text-center">
+        <div class="w-12 h-12 rounded-full bg-primary text-white mx-auto flex items-center justify-center font-bold mb-2">3</div>
+        <h3 class="font-headline-md text-headline-md mb-1">ดาวน์โหลด</h3>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">ได้ไฟล์ Excel สไตล์ Kirei พร้อม TOTAL CHANNEL และค่าบริการ 10%</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="fixed top-1/4 -right-24 w-96 h-96 bg-primary/5 rounded-full blur-[100px] -z-10"></div>
+  <div class="fixed bottom-1/4 -left-24 w-80 h-80 bg-secondary/5 rounded-full blur-[100px] -z-10"></div>
+</main>
+
+<footer class="w-full py-stack-md bg-transparent mt-auto border-t border-surface-variant/50">
+  <div class="flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop gap-base max-w-container-max mx-auto">
+    <div class="flex flex-col items-center md:items-start">
+      <span class="font-label-md text-label-md text-on-surface font-bold uppercase tracking-widest">FlipGrid</span>
+      <p class="font-body-sm text-body-sm text-on-surface-variant">ใช้ skill <code class="text-primary">tv-spot-plan-grid</code></p>
+    </div>
+    <div class="flex items-center gap-stack-md mt-4 md:mt-0">
+      <a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:underline transition-all" href="https://github.com/superoyo/flipdocuments" target="_blank">GitHub</a>
+      <a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:underline transition-all" href="#about">วิธีใช้</a>
+    </div>
+  </div>
+</footer>
 
 <script>
-  const drop = document.getElementById('drop');
+  const dropZone = document.getElementById('drop-zone');
   const fileInput = document.getElementById('file');
-  const fileName = document.getElementById('fileName');
+  const processBar = document.getElementById('process-bar');
+  const fileNameEl = document.getElementById('file-name');
+  const fileSizeEl = document.getElementById('file-size');
   const form = document.getElementById('form');
-  const submitBtn = document.getElementById('submitBtn');
-  const loading = document.getElementById('loading');
-  const result = document.getElementById('result');
-  const metaToggle = document.getElementById('metaToggle');
-  const metaGrid = document.getElementById('metaGrid');
+  const submitBtn = document.getElementById('submit-btn');
+  const submitText = document.getElementById('submit-text');
+  const submitIcon = document.getElementById('submit-icon');
+  const resultEl = document.getElementById('result');
+  const metaToggle = document.getElementById('meta-toggle');
+  const metaGrid = document.getElementById('meta-grid');
+  const metaIcon = document.getElementById('meta-icon');
 
   metaToggle.addEventListener('click', () => {
-    const open = metaGrid.style.display !== 'none';
-    metaGrid.style.display = open ? 'none' : 'grid';
-    metaToggle.textContent = (open ? '▸' : '▾') + ' เพิ่มข้อมูลส่วนหัว (optional)';
+    const open = !metaGrid.classList.contains('hidden');
+    metaGrid.classList.toggle('hidden');
+    metaIcon.textContent = open ? 'expand_more' : 'expand_less';
   });
 
+  function fmtSize(b) {
+    if (b < 1024) return b + ' B';
+    if (b < 1048576) return (b/1024).toFixed(1) + ' KB';
+    return (b/1048576).toFixed(2) + ' MB';
+  }
+
+  function showFile(f) {
+    fileNameEl.textContent = f.name;
+    fileSizeEl.textContent = 'พร้อมแปลง • ' + fmtSize(f.size);
+    processBar.classList.remove('hidden');
+    resultEl.classList.add('hidden');
+  }
+
   fileInput.addEventListener('change', () => {
-    if (fileInput.files.length) {
-      fileName.style.display = 'block';
-      fileName.textContent = '✓ ' + fileInput.files[0].name;
-    }
+    if (fileInput.files.length) showFile(fileInput.files[0]);
   });
 
   ['dragenter', 'dragover'].forEach(e => {
-    drop.addEventListener(e, ev => { ev.preventDefault(); drop.classList.add('drag'); });
+    dropZone.addEventListener(e, ev => {
+      ev.preventDefault();
+      dropZone.classList.add('bg-primary-container/5', 'scale-[1.01]');
+    });
   });
   ['dragleave', 'drop'].forEach(e => {
-    drop.addEventListener(e, ev => { ev.preventDefault(); drop.classList.remove('drag'); });
+    dropZone.addEventListener(e, ev => {
+      ev.preventDefault();
+      dropZone.classList.remove('bg-primary-container/5', 'scale-[1.01]');
+    });
   });
-  drop.addEventListener('drop', ev => {
+  dropZone.addEventListener('drop', ev => {
     const files = ev.dataTransfer.files;
     if (files.length) {
       fileInput.files = files;
-      fileInput.dispatchEvent(new Event('change'));
+      showFile(files[0]);
     }
   });
+
+  function setLoading(loading) {
+    submitBtn.disabled = loading;
+    if (loading) {
+      submitText.textContent = 'กำลังประมวลผล...';
+      submitIcon.outerHTML = '<span id="submit-icon" class="spinner"></span>';
+    } else {
+      submitText.textContent = 'แปลงไฟล์';
+      document.getElementById('submit-icon').outerHTML = '<span id="submit-icon" class="material-symbols-outlined text-[18px]">auto_fix_high</span>';
+    }
+  }
+
+  function renderError(msg) {
+    resultEl.classList.remove('hidden');
+    resultEl.innerHTML = `
+      <div class="rounded-xl border border-error/30 bg-error-container/40 p-stack-md flex items-start gap-stack-sm">
+        <span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">error</span>
+        <div>
+          <p class="font-body-md font-semibold text-on-error-container">แปลงไม่สำเร็จ</p>
+          <p class="font-body-sm text-body-sm text-on-error-container mt-1">${msg}</p>
+        </div>
+      </div>`;
+  }
+
+  function renderSuccess(data) {
+    const s = data.summary;
+    const stats = [
+      {label: 'เดือน', value: s.month || '-', icon: 'calendar_month'},
+      {label: 'ช่อง', value: s.channels, icon: 'tv'},
+      {label: 'รายการ', value: s.rows, icon: 'list'},
+      {label: 'สปอตรวม', value: s.spots.toLocaleString(), icon: 'play_circle'},
+      {label: 'เงินสุทธิ', value: s.money.toLocaleString(), icon: 'payments'},
+    ];
+    const cards = stats.map(st => `
+      <div class="bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-3 text-center">
+        <span class="material-symbols-outlined text-primary text-[20px] mb-1">${st.icon}</span>
+        <div class="font-label-md text-label-md text-on-surface-variant uppercase">${st.label}</div>
+        <div class="font-headline-md text-headline-md text-on-surface mt-1">${st.value}</div>
+      </div>`).join('');
+    resultEl.classList.remove('hidden');
+    resultEl.innerHTML = `
+      <div class="rounded-xl border border-success/40 bg-success-container/50 p-stack-md fade-in">
+        <div class="flex items-center gap-stack-sm mb-stack-sm">
+          <span class="material-symbols-outlined text-success" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+          <p class="font-headline-md text-headline-md text-on-surface">แปลงสำเร็จ</p>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-stack-sm mb-stack-md">${cards}</div>
+        <a href="${data.download_url}" class="gemini-gradient text-white px-6 py-3 rounded-xl font-body-md font-semibold inline-flex items-center gap-2 shadow-lg hover:shadow-xl transition-all active:scale-95">
+          <span class="material-symbols-outlined text-[20px]">download</span>
+          ดาวน์โหลด Excel
+        </a>
+      </div>`;
+  }
 
   form.addEventListener('submit', async (ev) => {
     ev.preventDefault();
     if (!fileInput.files.length) return;
-
-    submitBtn.disabled = true;
-    loading.style.display = 'block';
-    result.style.display = 'none';
-    result.className = 'result';
-
+    setLoading(true);
+    resultEl.classList.add('hidden');
     const fd = new FormData(form);
-
     try {
       const res = await fetch('/convert', { method: 'POST', body: fd });
       const data = await res.json();
-      loading.style.display = 'none';
-      submitBtn.disabled = false;
-
+      setLoading(false);
       if (!res.ok || data.error) {
-        result.className = 'result err';
-        result.style.display = 'block';
-        result.innerHTML = '<h3>⚠️ แปลงไม่สำเร็จ</h3><p>' + (data.error || 'Unknown error') + '</p>';
-        return;
+        renderError(data.error || 'Unknown error');
+      } else {
+        renderSuccess(data);
       }
-
-      const s = data.summary;
-      result.className = 'result ok';
-      result.style.display = 'block';
-      result.innerHTML = `
-        <h3>✅ แปลงสำเร็จ</h3>
-        <div class="summary">
-          <div class="stat"><div class="stat-label">เดือน</div><div class="stat-value">${s.month || '-'}</div></div>
-          <div class="stat"><div class="stat-label">ช่อง</div><div class="stat-value">${s.channels}</div></div>
-          <div class="stat"><div class="stat-label">รายการ</div><div class="stat-value">${s.rows}</div></div>
-          <div class="stat"><div class="stat-label">สปอตรวม</div><div class="stat-value">${s.spots.toLocaleString()}</div></div>
-          <div class="stat"><div class="stat-label">เงินสุทธิ</div><div class="stat-value">${s.money.toLocaleString()}</div></div>
-        </div>
-        <div style="text-align:center"><a class="dl-btn" href="${data.download_url}">⬇ ดาวน์โหลด Excel</a></div>
-      `;
     } catch (e) {
-      loading.style.display = 'none';
-      submitBtn.disabled = false;
-      result.className = 'result err';
-      result.style.display = 'block';
-      result.innerHTML = '<h3>⚠️ เกิดข้อผิดพลาด</h3><p>' + e.message + '</p>';
+      setLoading(false);
+      renderError(e.message);
     }
+  });
+
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 10) nav.classList.add('shadow-md');
+    else nav.classList.remove('shadow-md');
   });
 </script>
 </body>
