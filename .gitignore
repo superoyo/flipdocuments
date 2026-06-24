@@ -4,6 +4,8 @@ __pycache__/
 .DS_Store
 uploads/*
 outputs/*
+data/*
 !uploads/.gitkeep
 !outputs/.gitkeep
+!data/.gitkeep
 .env
