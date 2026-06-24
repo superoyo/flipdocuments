@@ -5,6 +5,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>FlipGrid | TV Spot Plan → Monthly Media Grid</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet"/>
@@ -150,6 +151,50 @@
   @keyframes spin { to { transform: rotate(360deg); } }
   .fade-in { animation: fadeIn 0.35s ease both; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  /* Preview table */
+  .preview-scroll {
+    max-height: 420px;
+    overflow: auto;
+    background: #fff;
+    border-radius: 8px;
+  }
+  .preview-scroll table {
+    border-collapse: collapse;
+    font-family: 'Tahoma', sans-serif;
+    font-size: 11px;
+    color: #1a2733;
+  }
+  .preview-scroll td, .preview-scroll th {
+    border: 1px solid #e2e6ee;
+    padding: 3px 6px;
+    white-space: nowrap;
+    background: #fff;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .preview-scroll tr:first-child td,
+  .preview-scroll thead td {
+    background: #f2f3fd;
+    font-weight: 600;
+  }
+  .preview-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 32px;
+    color: #6b7a8a;
+    font-size: 13px;
+  }
+  .preview-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #c1c6d6;
+    border-top-color: #005bbf;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
 </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -265,6 +310,9 @@
           </div>
         </div>
 
+        <!-- Input preview: shown after file selected -->
+        <div id="input-preview" class="hidden mt-gutter fade-in"></div>
+
         <!-- Result -->
         <div id="result" class="hidden mt-gutter fade-in"></div>
       </form>
@@ -356,12 +404,58 @@
     return (b/1048576).toFixed(2) + ' MB';
   }
 
+  const inputPreview = document.getElementById('input-preview');
+
+  async function renderPreview(blob, container, opts) {
+    const { title, icon = 'preview', sub = '' } = opts;
+    container.innerHTML = `
+      <div class="glass-card rounded-xl p-stack-md">
+        <div class="flex items-center justify-between mb-3 gap-2">
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="material-symbols-outlined text-primary text-[20px] flex-shrink-0" style="font-variation-settings: 'FILL' 1;">${icon}</span>
+            <p class="font-body-md font-semibold text-on-surface truncate">${title}</p>
+          </div>
+          ${sub ? `<span class="font-label-md text-label-md text-on-surface-variant whitespace-nowrap">${sub}</span>` : ''}
+        </div>
+        <div class="preview-scroll border border-outline-variant rounded-lg" id="${container.id}-body">
+          <div class="preview-loading"><span class="preview-spinner"></span> กำลังโหลดตัวอย่าง...</div>
+        </div>
+      </div>`;
+    container.classList.remove('hidden');
+    try {
+      const buf = await blob.arrayBuffer();
+      const wb = XLSX.read(buf, { type: 'array' });
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      let rowCount = 0, colCount = 0;
+      if (ws['!ref']) {
+        const range = XLSX.utils.decode_range(ws['!ref']);
+        rowCount = range.e.r - range.s.r + 1;
+        colCount = range.e.c - range.s.c + 1;
+        range.e.r = Math.min(range.e.r, range.s.r + 99);
+        ws['!ref'] = XLSX.utils.encode_range(range);
+      }
+      const html = XLSX.utils.sheet_to_html(ws, { editable: false, header: '', footer: '' });
+      const body = document.getElementById(container.id + '-body');
+      body.innerHTML = html;
+      const shown = Math.min(rowCount, 100);
+      const note = rowCount > 100 ? ` (แสดง ${shown}/${rowCount} แถว)` : ` (${rowCount} แถว × ${colCount} คอลัมน์)`;
+      const subEl = container.querySelector('.font-label-md');
+      if (subEl) subEl.textContent = note;
+      else container.querySelector('.flex.items-center.justify-between').insertAdjacentHTML('beforeend',
+        `<span class="font-label-md text-label-md text-on-surface-variant whitespace-nowrap">${note}</span>`);
+    } catch (e) {
+      document.getElementById(container.id + '-body').innerHTML =
+        `<div class="preview-loading" style="color:#c0392b">โหลดตัวอย่างไม่ได้: ${e.message}</div>`;
+    }
+  }
+
   function showFile(f) {
     fileNameEl.textContent = f.name;
     fileSizeEl.textContent = 'พร้อมแปลง • ' + fmtSize(f.size);
     processBar.classList.remove('hidden');
     dropZone.classList.add('hidden');
     resultEl.classList.add('hidden');
+    renderPreview(f, inputPreview, { title: 'ตัวอย่างเนื้อหาในไฟล์ที่อัปโหลด', icon: 'upload_file' });
   }
 
   function resetFile() {
@@ -369,6 +463,8 @@
     processBar.classList.add('hidden');
     dropZone.classList.remove('hidden');
     resultEl.classList.add('hidden');
+    inputPreview.classList.add('hidden');
+    inputPreview.innerHTML = '';
   }
 
   fileInput.addEventListener('change', () => {
@@ -423,7 +519,7 @@
       </div>`;
   }
 
-  function renderSuccess(data) {
+  async function renderSuccess(data) {
     const s = data.summary;
     const stats = [
       {label: 'เดือน', value: s.month || '-', icon: 'calendar_month'},
@@ -446,11 +542,24 @@
           <p class="font-headline-md text-headline-md text-on-surface">แปลงสำเร็จ</p>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-5 gap-stack-sm mb-stack-md">${cards}</div>
+        <div id="output-preview" class="mb-stack-md"></div>
         <a href="${data.download_url}" class="gemini-gradient text-white px-6 py-3 rounded-xl font-body-md font-semibold inline-flex items-center gap-2 shadow-lg hover:shadow-xl transition-all active:scale-95">
           <span class="material-symbols-outlined text-[20px]">download</span>
           ดาวน์โหลด Excel
         </a>
       </div>`;
+    // Hide the input preview once we have the output
+    inputPreview.classList.add('hidden');
+    // Fetch the output and render preview
+    try {
+      const res = await fetch(data.download_url);
+      const blob = await res.blob();
+      await renderPreview(blob, document.getElementById('output-preview'),
+        { title: 'ตัวอย่างไฟล์ที่จะดาวน์โหลด', icon: 'grid_on' });
+    } catch (e) {
+      document.getElementById('output-preview').innerHTML =
+        `<div class="preview-loading" style="color:#c0392b">โหลดตัวอย่างไม่ได้: ${e.message}</div>`;
+    }
   }
 
   form.addEventListener('submit', async (ev) => {
