@@ -177,27 +177,9 @@
     </p>
   </section>
 
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
-    <!-- Left: Features -->
-    <aside class="lg:col-span-4 space-y-gutter">
-      <div class="glass-card rounded-xl p-stack-md hover-lift">
-        <div class="w-12 h-12 rounded-lg bg-primary-container/10 flex items-center justify-center mb-4">
-          <span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
-        </div>
-        <h3 class="font-headline-md text-headline-md mb-2">Auto-Detect</h3>
-        <p class="font-body-sm text-body-sm text-on-surface-variant">ตรวจจับ header / weekday groups / วันที่ / legend อัตโนมัติ — ใช้ได้ทุกเดือนโดยไม่ต้อง config</p>
-      </div>
-      <div class="glass-card rounded-xl p-stack-md hover-lift">
-        <div class="w-12 h-12 rounded-lg bg-secondary-container/10 flex items-center justify-center mb-4">
-          <span class="material-symbols-outlined text-secondary-container" style="font-variation-settings: 'FILL' 1;">functions</span>
-        </div>
-        <h3 class="font-headline-md text-headline-md mb-2">สูตร Excel จริง</h3>
-        <p class="font-body-sm text-body-sm text-on-surface-variant">รวมเงินสุทธิ, TOTAL CHANNEL, ค่าบริการ 10% — ทุกบรรทัดเป็นสูตร แก้ตัวเลขแล้วอัปเดตเอง</p>
-      </div>
-    </aside>
-
-    <!-- Right: Upload Zone -->
-    <div class="lg:col-span-8">
+  <div class="max-w-3xl mx-auto">
+    <!-- Upload Zone (centered) -->
+    <div>
       <form id="form">
         <label id="drop-zone" class="upload-dashed glass-card p-12 min-h-[420px] flex flex-col items-center justify-center text-center group cursor-pointer transition-all duration-300 hover:bg-surface-container-low block">
           <div class="mb-6 relative">
@@ -274,6 +256,24 @@
         <!-- Result -->
         <div id="result" class="hidden mt-gutter fade-in"></div>
       </form>
+
+      <!-- Features below upload -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter mt-stack-lg">
+        <div class="glass-card rounded-xl p-stack-md hover-lift">
+          <div class="w-12 h-12 rounded-lg bg-primary-container/10 flex items-center justify-center mb-4">
+            <span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+          </div>
+          <h3 class="font-headline-md text-headline-md mb-2">Auto-Detect</h3>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">ตรวจจับ header / weekday groups / วันที่ / legend อัตโนมัติ — ใช้ได้ทุกเดือนโดยไม่ต้อง config</p>
+        </div>
+        <div class="glass-card rounded-xl p-stack-md hover-lift">
+          <div class="w-12 h-12 rounded-lg bg-secondary-container/10 flex items-center justify-center mb-4">
+            <span class="material-symbols-outlined text-secondary-container" style="font-variation-settings: 'FILL' 1;">functions</span>
+          </div>
+          <h3 class="font-headline-md text-headline-md mb-2">สูตร Excel จริง</h3>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">รวมเงินสุทธิ, TOTAL CHANNEL, ค่าบริการ 10% — ทุกบรรทัดเป็นสูตร แก้ตัวเลขแล้วอัปเดตเอง</p>
+        </div>
+      </div>
     </div>
   </div>
 
