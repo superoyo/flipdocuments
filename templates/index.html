@@ -103,6 +103,9 @@
   }
 </script>
 <style>
+  html, body {
+    overflow-x: hidden;
+  }
   body {
     font-family: 'Inter', 'IBM Plex Sans Thai', sans-serif;
     background-color: #f9f9ff;
@@ -177,9 +180,9 @@
     </p>
   </section>
 
-  <div class="max-w-3xl mx-auto">
+  <div class="w-full max-w-3xl mx-auto flex flex-col items-stretch">
     <!-- Upload Zone (centered) -->
-    <div>
+    <div class="w-full">
       <form id="form">
         <label id="drop-zone" class="upload-dashed glass-card p-12 min-h-[420px] flex flex-col items-center justify-center text-center group cursor-pointer transition-all duration-300 hover:bg-surface-container-low block">
           <div class="mb-6 relative">
